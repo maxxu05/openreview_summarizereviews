@@ -53,7 +53,7 @@ print(f"Total Nonwithdrawn Papers: {len(allRatingsMeans)}")
 plt.hist(allRatingsMeans, bins=100)
 plt.show(block=True)
 
-# Write to spreadsheet for sanity check
+# Write to spreadsheet
 handle = open('openreview_ratings.csv', 'w')
 handle.write("Title,Mean,Median,StDev," + "Rating,Confidence,"*8 + "\n")
 for title in papers:
