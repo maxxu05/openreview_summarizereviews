@@ -1,6 +1,7 @@
 import openreview
 import numpy as np
-from tqdm import tqdm
+import matplotlib.pyplot as plt
+
 # https://openreview-py.readthedocs.io/en/latest/ 
 # https://readthedocs.org/projects/openreview-py-dm-branch/downloads/pdf/latest/
 # https://docs.openreview.net/getting-started/using-the-api/installing-and-instantiating-the-python-client
@@ -47,6 +48,10 @@ print(f"Mean, Mean Paper Rating: {overallMean}")
 print(f"Median, Mean Paper Rating: {overallMedian}")
 print(f"Standard Deviation of Mean Paper Rating: {overallStdev}")
 print(f"Total Nonwithdrawn Papers: {len(allRatingsMeans)}")
+
+# Visualize results
+plt.hist(allRatingsMeans, bins=100)
+plt.show(block=True)
 
 # Write to spreadsheet for sanity check
 handle = open('openreview_ratings.csv', 'w')
