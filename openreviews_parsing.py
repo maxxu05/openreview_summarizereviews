@@ -58,6 +58,19 @@ print(f"Median, Mean Paper Rating: {overallMedian}")
 print(f"Standard Deviation of Mean Paper Rating: {overallStdev}")
 print(f"Total Nonwithdrawn Papers: {len(allRatingsMeans)}")
 
+
+# Write to spreadsheet
+if not os.path.exists("csvs"):
+    os.makedirs("csvs")
+handle = open(f"csvs/openreview_ratings_{datetime.today().strftime('%Y_%m_%d')}.csv", 'w')
+handle.write("Title,Mean,Median,StDev," + "Rating,Confidence,"*8 + "\n")
+for title in papers:
+    stuff = str(papers[title])
+    stuff = stuff.replace("(","").replace(")","").replace("[","").replace("]","")
+    handle.write(title.replace("\n","").replace(",","") + "," + stuff + "\n")
+handle.close()
+
+
 # Visualize results
 fig, ax = plt.subplots(figsize=(20,10))
 
@@ -79,16 +92,7 @@ for count, x in zip(counts, bin_centers):
     ax.annotate(percent, xy=(x, 0), xycoords=('data', 'axes fraction'),
         xytext=(0, -32), textcoords='offset points', va='top', ha='center')
 
+if not os.path.exists("figs"):
+    os.makedirs("figs")
+plt.savefig(f"figs/hist_{datetime.today().strftime('%Y_%m_%d')}.png")
 plt.show(block=True)
-
-# Write to spreadsheet
-if not os.path.exists("csvs"):
-    os.makedirs("csvs")
-handle = open(f"csvs/openreview_ratings_{datetime.today().strftime('%Y_%m_%d')}.csv", 'w')
-handle.write("Title,Mean,Median,StDev," + "Rating,Confidence,"*8 + "\n")
-for title in papers:
-    stuff = str(papers[title])
-    stuff = stuff.replace("(","").replace(")","").replace("[","").replace("]","")
-    handle.write(title.replace("\n","").replace(",","") + "," + stuff + "\n")
-handle.close()
-
