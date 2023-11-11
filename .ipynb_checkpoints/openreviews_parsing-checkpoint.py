@@ -23,12 +23,17 @@ listofreviewers = set()
 for submission in submissions:
     reviews = []
     for review in submission.details['directReplies']:
-        if 'rating' in review['content'].keys():
-            rating = int(review['content']['rating']['value'].split(':')[0])
-            confidence = int(review['content']['confidence']['value'].split(':')[0])
+        if 'rating' in review['content']:
+            if review["signatures"][0][-4:] not in listofreviewers:
+                listofreviewers.add(review["signatures"][0][-4:])
+            else:
+                print(review["signatures"][0][-4:])
+                import pdb; pdb.set_trace()
+            rating = int(review['content']['rating'].split(':')[0])
+            confidence = int(review['content']['confidence'].split(':')[0])
             aTup = rating,confidence
             reviews.append(aTup)
-    papers[submission.content['title']["value"]] = reviews
+    papers[submission.content['title']] = reviews
 
 # Stats Calculation
 allRatings = []
@@ -36,27 +41,24 @@ allRatingsMeans = []
 for paper in papers:
     ratingsList = []
     for pair in papers[paper]:
-        # print(pair[0])
         ratingsList.append(pair[0])
 
     #paper specific statistics
-    mean = np.nanmean(ratingsList)
-    median = np.nanmedian(ratingsList)
-    stdev = np.nanstd(ratingsList)
+    mean = np.mean(ratingsList)
+    median = np.median(ratingsList)
+    stdev = np.std(ratingsList)
 
     statsTup = mean, median, stdev
     papers[paper].insert(0, statsTup)
     allRatingsMeans.append(mean)
 
-overallMean = np.nanmean(allRatingsMeans)
-overallMedian = np.nanmedian(allRatingsMeans)
-overallStdev = np.nanstd(allRatingsMeans)
+overallMean = np.mean(allRatingsMeans)
+overallMedian = np.median(allRatingsMeans)
+overallStdev = np.std(allRatingsMeans)
 print(f"Mean, Mean Paper Rating: {overallMean}")
 print(f"Median, Mean Paper Rating: {overallMedian}")
 print(f"Standard Deviation of Mean Paper Rating: {overallStdev}")
-print(f"Total Papers: {len(allRatingsMeans)}")
-print(f"Total Papers with Nan Reviews: {np.sum(np.isnan(allRatingsMeans))}")
-
+print(f"Total Nonwithdrawn Papers: {len(allRatingsMeans)}")
 
 
 # Write to spreadsheet
