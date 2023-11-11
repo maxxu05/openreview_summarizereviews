@@ -6,7 +6,7 @@ This is a quick script for parsing through and summarizing the reviews of a conf
 <p align="center">
 <img src="figs/hist_2023_11_10.png" width=100% height=100%> 
 </p>
-<p align="center"> Visualization of Openreview Ratings for 2023 ICLR </p>
+<p align="center"> Visualization of Openreview Ratings for 2024 ICLR </p>
 
 
 ## Installing dependencies
