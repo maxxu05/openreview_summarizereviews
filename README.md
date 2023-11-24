@@ -14,7 +14,7 @@ This is a quick script for parsing through and summarizing the reviews of a conf
 For this, we use [miniconda](https://docs.conda.io/en/latest/miniconda.html) to manage dependencies. After setting it up, you can install the environment:
 
     conda env create -f environment.yml
-    conda activate openreview_summarizereviews
+    conda activate openreview
 
 ## Running Script
 
